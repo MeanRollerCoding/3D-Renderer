@@ -37,6 +37,7 @@ public class Entity implements IEntity {
 		for(Polyhedron poly : this.polyhedrons) {
 			poly.translate(x, y, z);
 		}
+		this.sortPolygons();
 	}
 
 	@Override

@@ -38,6 +38,7 @@ public class Polyhedron {
 		for(MyPolygon p : this.polygons) {
 			p.translate(x, y, z);
 		}
+		this.sortPolygons();
 	}
 	
 	public void rotate(boolean CW, double xDegrees, double yDegrees, double zDegrees, MyVector lightVector) {

@@ -21,7 +21,7 @@ public class EntityManager {
 	private List<IEntity> entities;
 	private int initialX, initialY;
 	private double mouseSensitivity = 2.5;
-	private double moveSpeed = 2;
+	private double moveSpeed = 10;
 	private MyVector lightVector = MyVector.normalize(new MyVector(1, 1, 1));
 	private Mouse mouse;
 	private Keyboard keyboard;
@@ -35,8 +35,8 @@ public class EntityManager {
 	public void init(UserInput userInput) {
 		this.mouse = userInput.mouse;
 		this.keyboard = userInput.keyboard;
-		//this.entities.add(ComplexEntityBuilder.createRubiksCube(100, 0, 0, 0));
-		this.entities.add(BasicEntityBuilder.createDiamond(Color.CYAN, 100, 0, 0, 0));
+		this.entities.add(ComplexEntityBuilder.createRubiksCube(100, 0, 0, 0));
+		//this.entities.add(BasicEntityBuilder.createDiamond(Color.CYAN, 100, 0, 0, 0));
 		this.setLighting();
 	}
 	

@@ -19,6 +19,7 @@ public class MyPolygon {
 	
 	private Color baseColor, lightingColor;
 	private MyPoint[] points;
+	private boolean visible;
 	
 	public MyPolygon(Color color, MyPoint... points) {
 		this.baseColor = this.lightingColor = color;
@@ -27,6 +28,7 @@ public class MyPolygon {
 			MyPoint p = points[i];
 			this.points[i] = new MyPoint(p.x, p.y, p.z);
 		}
+		this.updateVisibility();
 	}
 	
 	public MyPolygon(MyPoint... points) {
@@ -36,9 +38,12 @@ public class MyPolygon {
 			MyPoint p = points[i];
 			this.points[i] = new MyPoint(p.x, p.y, p.z);
 		}
+		this.updateVisibility();
 	}
 	
 	public void render(Graphics g) {
+		if(!this.visible) return;
+		
 		Polygon poly = new Polygon();
 		for(int i = 0; i < this.points.length; i++) {
 			Point p = PointConverter.convertPoint(this.points[i]);
@@ -55,6 +60,7 @@ public class MyPolygon {
 			p.yOffset += y;
 			p.zOffset += z;
 		}
+		this.updateVisibility();
 	}
 		
 	public void rotate(boolean CW, double xDegrees, double yDegrees, double zDegrees, MyVector lightVector) {
@@ -63,14 +69,14 @@ public class MyPolygon {
 			PointConverter.rotateAxisY(p, CW, yDegrees);
 			PointConverter.rotateAxisZ(p, CW, zDegrees);
 		}
-		
+		this.updateVisibility();
 		this.setLighting(lightVector);
 	}
 	
 	public double getAverageX() {
 		double sum = 0;
 		for(MyPoint p : this.points) {
-			sum += p.x;
+			sum += p.x + p.xOffset;
 		}
 		
 		return sum / this.points.length;
@@ -90,9 +96,11 @@ public class MyPolygon {
 		Collections.sort(polygonsList, new Comparator<MyPolygon>() {
 			@Override
 			public int compare(MyPolygon p1, MyPolygon p2) {
-				double p1AverageX = p1.getAverageX();
-				double p2AverageX = p2.getAverageX();
-				double diff = p2AverageX - p1AverageX;
+				MyPoint p1Average = p1.getAveragePoint();
+				MyPoint p2Average = p2.getAveragePoint();
+				double p1Dist = MyPoint.dist(p1Average, MyPoint.origin);
+				double p2Dist = MyPoint.dist(p2Average, MyPoint.origin);
+				double diff = p1Dist - p2Dist;
 				if(diff == 0) {
 					return 0;
 				}
@@ -125,11 +133,36 @@ public class MyPolygon {
 		this.updateLightingColor(lightRatio);
 	}
 	
+	public boolean isVisible() {
+		return this.visible;
+	}
+	
+	private void updateVisibility() {
+		this.visible = this.getAverageX() < 0;
+	}
+	
 	private void updateLightingColor(double lightRatio) {
 		int red = (int) (this.baseColor.getRed() * lightRatio);
 		int green = (int) (this.baseColor.getGreen() * lightRatio);
 		int blue = (int) (this.baseColor.getBlue() * lightRatio);
 		this.lightingColor = new Color(red, green, blue);
+	}
+	
+	private MyPoint getAveragePoint() {
+		double x = 0;
+		double y = 0;
+		double z = 0;
+		for(MyPoint p : this.points) {
+			x += p.x + p.xOffset;
+			y += p.y + p.yOffset;
+			z += p.z + p.zOffset;
+		}
+
+		x /= this.points.length;
+		y /= this.points.length;
+		z /= this.points.length;
+		
+		return new MyPoint(x, y, z);
 	}
 
 }

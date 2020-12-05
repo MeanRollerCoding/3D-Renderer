@@ -6,7 +6,7 @@ import renderer.Display;
 
 public class PointConverter {
 
-	private static double scale = 1;
+	private static double scale = 4;
 	private static final double ZoomFactor = 1.2;
 	
 	public static void zoomIn() {
