@@ -67,5 +67,64 @@ public class BasicEntityBuilder {
 		
 		return new Entity(tetras);
 	}
+	
+
+	
+	public static IEntity createSphere(Color color, double size, int resolution, double centerX, double centerY, double centerZ) {
+		List<Polyhedron> polyhedrons = new ArrayList<Polyhedron>();
+		List<MyPolygon> polygons = new ArrayList<MyPolygon>();
+
+		MyPoint bottom = new MyPoint(centerX, centerY, centerZ - size / 2);
+		MyPoint top = new MyPoint(centerX, centerY, centerZ + size / 2);
+		
+		MyPoint[][] points = new MyPoint[resolution - 1][resolution];
+		
+		for(int i = 1; i < resolution; i++) {
+			double theta = Math.PI / resolution * i;
+			double zPos = -Math.cos(theta) * size / 2;
+			double currentRadius = Math.abs(Math.sin(theta) * size / 2);
+			for(int j = 0; j < resolution; j++) {
+				double alpha = 2 * Math.PI / resolution * j;
+				double xPos = -Math.sin(alpha) * currentRadius;
+				double yPos = Math.cos(alpha) * currentRadius;
+				points[i-1][j] = new MyPoint(centerX + xPos, centerY + yPos, centerZ + zPos);
+			}
+		}
+		
+		for(int i = 1; i <= resolution; i++) {
+			for(int j = 0; j < resolution; j++) {
+				if(i == 1) {
+					polygons.add(
+							new MyPolygon(
+									points[i-1][j],
+									points[i-1][(j+1)%resolution],
+									bottom));
+				}
+				else if(i == resolution) {
+					polygons.add(
+							new MyPolygon(
+									points[i-2][(j+1)%resolution],
+									points[i-2][j],
+									top));
+				}
+				else {
+					polygons.add(
+							new MyPolygon(
+									points[i-1][j],
+									points[i-1][(j+1)%resolution],
+									points[i-2][j],
+									points[i-2][(j+1)%resolution]));
+				}
+			}
+		}
+		
+		MyPolygon[] polygonArray = new MyPolygon[polygons.size()];
+		polygonArray = polygons.toArray(polygonArray);
+		
+		Polyhedron polyhedron = new Polyhedron(color, false, polygonArray);
+		polyhedrons.add(polyhedron);
+		
+		return new Entity(polyhedrons);
+	}
 
 }
