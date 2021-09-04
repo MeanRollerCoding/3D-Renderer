@@ -9,53 +9,74 @@ import renderer.point.MyVector;
 import renderer.shapes.MyPolygon;
 import renderer.shapes.Polyhedron;
 
-public class Entity implements IEntity {
+public class Entity implements IEntity
+{
 
 	private List<Polyhedron> polyhedrons;
-	private MyPolygon[] polygons;
-	
-	public Entity(List<Polyhedron> polyhedrons) {
+	private MyPolygon[ ] polygons;
+
+	public Entity( List<Polyhedron> polyhedrons )
+	{
 		this.polyhedrons = polyhedrons;
-		List<MyPolygon> tempList = new ArrayList<MyPolygon>();
-		for(Polyhedron poly : this.polyhedrons) {
-			tempList.addAll(Arrays.asList(poly.getPolygons()));
+		List<MyPolygon> tempList = new ArrayList<MyPolygon>( );
+		for ( Polyhedron poly : this.polyhedrons )
+		{
+			tempList.addAll( Arrays.asList( poly.getPolygons( ) ) );
 		}
-		this.polygons = new MyPolygon[tempList.size()];
-		this.polygons = tempList.toArray(this.polygons);
-		this.sortPolygons();
+		this.polygons = new MyPolygon[ tempList.size( ) ];
+		this.polygons = tempList.toArray( this.polygons );
+		this.sortPolygons( );
 	}
-	
+
 	@Override
-	public void render(Graphics g) {
-		for(MyPolygon poly : this.polygons) {
-			poly.render(g);
+	public void render( Graphics g )
+	{
+		for ( MyPolygon poly : this.polygons )
+		{
+			poly.render( g );
 		}
 	}
 
 	@Override
-	public void translate(double x, double y, double z) {
-		for(Polyhedron poly : this.polyhedrons) {
-			poly.translate(x, y, z);
+	public void translate( double x, double y, double z )
+	{
+		for ( Polyhedron poly : this.polyhedrons )
+		{
+			poly.translate( x, y, z );
 		}
-		this.sortPolygons();
+		this.sortPolygons( );
 	}
 
 	@Override
-	public void rotate(boolean CW, double xDegrees, double yDegrees, double zDegrees, MyVector lightVector) {
-		for(Polyhedron poly : this.polyhedrons) {
-			poly.rotate(CW, xDegrees, yDegrees, zDegrees, lightVector);
+	public void rotate( boolean CW, double xDegrees, double yDegrees, double zDegrees, MyVector lightVector )
+	{
+		for ( Polyhedron poly : this.polyhedrons )
+		{
+			poly.rotate( CW, xDegrees, yDegrees, zDegrees, lightVector );
 		}
-		this.sortPolygons();
+		this.sortPolygons( );
 	}
-	
+
 	@Override
-	public void setLighting(MyVector lightVector) {
-		for(Polyhedron poly : this.polyhedrons) {
-			poly.setLighting(lightVector);
+	public void setLighting( MyVector lightVector )
+	{
+		for ( Polyhedron poly : this.polyhedrons )
+		{
+			poly.setLighting( lightVector );
 		}
 	}
-	
-	private void sortPolygons() {
-		MyPolygon.sortPolygons(this.polygons);
+
+	@Override
+	public void shift( )
+	{
+		for ( Polyhedron poly : this.polyhedrons )
+		{
+			poly.shift( );
+		}
+	}
+
+	private void sortPolygons( )
+	{
+		MyPolygon.sortPolygons( this.polygons );
 	}
 }

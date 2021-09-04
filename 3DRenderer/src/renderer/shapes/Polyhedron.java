@@ -5,77 +5,104 @@ import java.awt.Graphics;
 
 import renderer.point.MyVector;
 
-public class Polyhedron {
-	
-	private MyPolygon[] polygons;
+public class Polyhedron
+{
+
+	private MyPolygon[ ] polygons;
 	private Color color;
-	
-	public Polyhedron(Color color, boolean decayColor, MyPolygon... polygons) {
+
+	public Polyhedron( Color color, boolean decayColor, MyPolygon... polygons )
+	{
 		this.color = color;
 		this.polygons = polygons;
-		if(decayColor) {
-			this.setDecayingPolygonColor();
+		if ( decayColor )
+		{
+			this.setDecayingPolygonColor( );
 		}
-		else {
-			this.setPolygonColor();
+		else
+		{
+			this.setPolygonColor( );
 		}
-		this.sortPolygons();
+		this.sortPolygons( );
 	}
-	
-	public Polyhedron(MyPolygon... polygons) {
+
+	public Polyhedron( MyPolygon... polygons )
+	{
 		this.color = Color.WHITE;
 		this.polygons = polygons;
-		this.sortPolygons();
+		this.sortPolygons( );
 	}
-	
-	public void render(Graphics g) {
-		for(MyPolygon poly : this.polygons) {
-			poly.render(g);
+
+	public void render( Graphics g )
+	{
+		for ( MyPolygon poly : this.polygons )
+		{
+			poly.render( g );
 		}
 	}
-	
-	public void translate(double x, double y, double z) {
-		for(MyPolygon p : this.polygons) {
-			p.translate(x, y, z);
-		}
-		this.sortPolygons();
-	}
-	
-	public void rotate(boolean CW, double xDegrees, double yDegrees, double zDegrees, MyVector lightVector) {
-		for(MyPolygon p : this.polygons) {
-			p.rotate(CW, xDegrees, yDegrees, zDegrees, lightVector);
-		}
-		this.sortPolygons();
-	}
-	
-	public void setLighting(MyVector lightVector) {
-		for(MyPolygon p : this.polygons) {
-			p.setLighting(lightVector);
+
+	public void shift( )
+	{
+		for ( MyPolygon p : this.polygons )
+		{
+			p.shift( );
 		}
 	}
-	
-	public MyPolygon[] getPolygons() {
+
+	public void translate( double x, double y, double z )
+	{
+		for ( MyPolygon p : this.polygons )
+		{
+			p.translate( x, y, z );
+		}
+		this.sortPolygons( );
+	}
+
+	public void rotate( boolean CW, double xDegrees, double yDegrees, double zDegrees, MyVector lightVector )
+	{
+		for ( MyPolygon p : this.polygons )
+		{
+			p.rotate( CW, xDegrees, yDegrees, zDegrees, lightVector );
+		}
+		this.sortPolygons( );
+	}
+
+	public void setLighting( MyVector lightVector )
+	{
+		for ( MyPolygon p : this.polygons )
+		{
+			p.setLighting( lightVector );
+		}
+	}
+
+	public MyPolygon[ ] getPolygons( )
+	{
 		return this.polygons;
 	}
-	
-	private void sortPolygons() {
-		MyPolygon.sortPolygons(this.polygons);
+
+	private void sortPolygons( )
+	{
+		MyPolygon.sortPolygons( this.polygons );
 	}
-	
-	private void setPolygonColor() {
-		for(MyPolygon poly : this.polygons) {
-			poly.setColor(this.color);
+
+	private void setPolygonColor( )
+	{
+		for ( MyPolygon poly : this.polygons )
+		{
+			poly.setColor( this.color );
 		}
 	}
-	
-	private void setDecayingPolygonColor() {
+
+	private void setDecayingPolygonColor( )
+	{
 		double decayFactor = 0.97;
-		for(MyPolygon poly : this.polygons) {
-			poly.setColor(this.color);
-			int r = (int) (this.color.getRed() * decayFactor);
-			int g = (int) (this.color.getGreen() * decayFactor);
-			int b = (int) (this.color.getBlue() * decayFactor);
-			this.color = new Color(r, g, b);
+		for ( MyPolygon poly : this.polygons )
+		{
+			poly.setColor( this.color );
+			int r = ( int ) ( this.color.getRed( ) * decayFactor );
+			int g = ( int ) ( this.color.getGreen( ) * decayFactor );
+			int b = ( int ) ( this.color.getBlue( ) * decayFactor );
+			this.color = new Color( r, g, b );
 		}
 	}
 
