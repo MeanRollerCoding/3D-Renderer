@@ -11,8 +11,7 @@ import renderer.shapes.Polyhedron;
 
 public class Entity implements IEntity
 {
-
-	private List<Polyhedron> polyhedrons;
+	protected List<Polyhedron> polyhedrons;
 	private MyPolygon[ ] polygons;
 
 	public Entity( List<Polyhedron> polyhedrons )

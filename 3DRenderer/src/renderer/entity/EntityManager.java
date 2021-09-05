@@ -29,7 +29,7 @@ public class EntityManager
 	public EntityManager( )
 	{
 		this.entities = new ArrayList<IEntity>( );
-		this.camera = new Camera( 0, 0, 0 );
+		this.camera = new Camera( 100, 0, 0 );
 	}
 
 	public void init( UserInput userInput )
@@ -37,10 +37,16 @@ public class EntityManager
 		this.mouse = userInput.mouse;
 		this.keyboard = userInput.keyboard;
 		// this.entities.add(ComplexEntityBuilder.createRubiksCube(100, 0, 0, 0));
-		this.entities.add( BasicEntityBuilder.createDiamond( Color.CYAN, 100, 0, 0, 0 ) );
+		// this.entities.add( BasicEntityBuilder.createDiamond( Color.CYAN, 100, 0, 0, 0
+		// ) );
 		// this.entities.add( BasicEntityBuilder.createSphere( Color.RED, 100, 25, 0, 0,
 		// 0 ) );
+		this.entities.add( BasicEntityBuilder.createMorphCube( 100, Color.RED, 0, 0, 0 ) );
 		this.setLighting( );
+		for ( IEntity entity : this.entities )
+		{
+			entity.translate( -this.camera.getX( ), -this.camera.getY( ), -this.camera.getZ( ) );
+		}
 	}
 
 	public void update( )
@@ -121,7 +127,11 @@ public class EntityManager
 
 		for ( IEntity entity : this.entities )
 		{
-			entity.shift( );
+			// entity.shift( );
+			if ( entity instanceof MorphEntity )
+			{
+				( ( MorphEntity ) entity ).morph( 0.1 );
+			}
 		}
 
 		this.mouse.resetScroll( );

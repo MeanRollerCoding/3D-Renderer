@@ -6,13 +6,16 @@ import java.util.List;
 
 import renderer.entity.Entity;
 import renderer.entity.IEntity;
+import renderer.entity.MorphEntity;
+import renderer.point.MorphPoint;
 import renderer.point.MyPoint;
+import renderer.shapes.MorphPolygon;
+import renderer.shapes.MorphPolyhedron;
 import renderer.shapes.MyPolygon;
 import renderer.shapes.Polyhedron;
 
 public class BasicEntityBuilder
 {
-
 	public static IEntity createCube( double size, double centerX, double centerY, double centerZ )
 	{
 		MyPoint p1 = new MyPoint( centerX + size / 2, centerY + -size / 2, centerZ + -size / 2 );
@@ -31,6 +34,26 @@ public class BasicEntityBuilder
 		tetras.add( tetra );
 
 		return new Entity( tetras );
+	}
+
+	public static IEntity createMorphCube( double size, Color color, double centerX, double centerY, double centerZ )
+	{
+		MorphPoint p1 = new MorphPoint( centerX + size / 2, centerY + -size / 2, centerZ + -size / 2, centerX + size / 4, centerY + -size / 4, centerZ + -size / 4 );
+		MorphPoint p2 = new MorphPoint( centerX + size / 2, centerY + size / 2, centerZ + -size / 2, centerX + size / 2, centerY + size / 2, centerZ + -size / 1 );
+		MorphPoint p3 = new MorphPoint( centerX + size / 2, centerY + size / 2, centerZ + size / 2, centerX + size / 2, centerY + size / 2, centerZ + size / 1 );
+		MorphPoint p4 = new MorphPoint( centerX + size / 2, centerY + -size / 2, centerZ + size / 2, centerX + size / 2, centerY + -size / 2, centerZ + size / 4 );
+		MorphPoint p5 = new MorphPoint( centerX + -size / 2, centerY + -size / 2, centerZ + -size / 2, centerX + -size / 2, centerY + -size / 2, centerZ + -size / 1 );
+		MorphPoint p6 = new MorphPoint( centerX + -size / 2, centerY + size / 2, centerZ + -size / 2, centerX + -size / 2, centerY + size / 2, centerZ + -size / 4 );
+		MorphPoint p7 = new MorphPoint( centerX + -size / 2, centerY + size / 2, centerZ + size / 2, centerX + -size / 2, centerY + size / 2, centerZ + size / 4 );
+		MorphPoint p8 = new MorphPoint( centerX + -size / 2, centerY + -size / 2, centerZ + size / 2, centerX + -size / 2, centerY + -size / 2, centerZ + size / 1 );
+
+		Polyhedron tetra = new MorphPolyhedron( new MorphPolygon( color, p5, p6, p7, p8 ), new MorphPolygon( color, p1, p2, p6, p5 ), new MorphPolygon( color, p1, p5, p8, p4 ),
+				new MorphPolygon( color, p2, p3, p7, p6 ), new MorphPolygon( color, p4, p8, p7, p3 ), new MorphPolygon( color, p1, p4, p3, p2 ) );
+
+		List<Polyhedron> tetras = new ArrayList<Polyhedron>( );
+		tetras.add( tetra );
+
+		return new MorphEntity( tetras );
 	}
 
 	public static IEntity createDiamond( Color color, double size, double centerX, double centerY, double centerZ )

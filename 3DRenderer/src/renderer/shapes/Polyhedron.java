@@ -7,8 +7,7 @@ import renderer.point.MyVector;
 
 public class Polyhedron
 {
-
-	private MyPolygon[ ] polygons;
+	protected MyPolygon[ ] polygons;
 	private Color color;
 
 	public Polyhedron( Color color, boolean decayColor, MyPolygon... polygons )

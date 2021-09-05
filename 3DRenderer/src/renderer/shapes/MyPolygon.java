@@ -18,31 +18,22 @@ public class MyPolygon
 
 	private static final double AmbientLight = 0.05;
 
+	protected MyPoint[ ] points;
+
 	private Color baseColor, lightingColor;
-	private MyPoint[ ] points;
 	private boolean visible;
 
 	public MyPolygon( Color color, MyPoint... points )
 	{
 		this.baseColor = this.lightingColor = color;
-		this.points = new MyPoint[ points.length ];
-		for ( int i = 0; i < points.length; i++ )
-		{
-			MyPoint p = points[ i ];
-			this.points[ i ] = new MyPoint( p.x, p.y, p.z );
-		}
+		this.createPointsArray( points );
 		this.updateVisibility( );
 	}
 
 	public MyPolygon( MyPoint... points )
 	{
 		this.baseColor = this.lightingColor = Color.WHITE;
-		this.points = new MyPoint[ points.length ];
-		for ( int i = 0; i < points.length; i++ )
-		{
-			MyPoint p = points[ i ];
-			this.points[ i ] = new MyPoint( p.x, p.y, p.z );
-		}
+		this.createPointsArray( points );
 		this.updateVisibility( );
 	}
 
@@ -167,6 +158,16 @@ public class MyPolygon
 	public boolean isVisible( )
 	{
 		return this.visible;
+	}
+
+	protected void createPointsArray( MyPoint[ ] points )
+	{
+		this.points = new MyPoint[ points.length ];
+		for ( int i = 0; i < points.length; i++ )
+		{
+			MyPoint p = points[ i ];
+			this.points[ i ] = new MyPoint( p.x, p.y, p.z );
+		}
 	}
 
 	private void updateVisibility( )
